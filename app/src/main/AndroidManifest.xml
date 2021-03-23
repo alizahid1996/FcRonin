@@ -25,7 +25,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FcRonin">
-        <activity android:name=".activities.Main2Activity"></activity>
+
+        <activity android:name=".activities.Main2Activity"/>
         <activity android:name=".activities.StatusStoriesActivity" />
         <activity android:name=".activities.SplashActivity" />
         <activity android:name=".activities.SignInActivity" />
