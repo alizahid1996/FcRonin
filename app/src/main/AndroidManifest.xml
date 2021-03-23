@@ -25,6 +25,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FcRonin">
+        <activity android:name=".activities.Main2Activity"></activity>
+        <activity android:name=".activities.StatusStoriesActivity" />
+        <activity android:name=".activities.SplashActivity" />
+        <activity android:name=".activities.SignInActivity" />
+        <activity android:name=".activities.PrivacyPolicyActivity" />
+        <activity android:name=".activities.NameSignInActivity" />
+        <activity android:name=".activities.IncomingCallScreenActivity" />
+        <activity android:name=".activities.ImageViewerActivity" />
+        <activity android:name=".activities.ContactViewerActivity" />
+        <activity android:name=".activities.ContactActivity" />
+        <activity android:name=".activities.ChooseSignInActivity" />
+        <activity android:name=".activities.ChatDetailActivity" />
+        <activity android:name=".activities.ChatActivity" />
+        <activity android:name=".activities.CallScreenActivity" />
+        <activity android:name=".activities.CallListActivity" />
+        <activity android:name=".activities.BasicActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
