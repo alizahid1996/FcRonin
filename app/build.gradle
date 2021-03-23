@@ -1,9 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
-    apply plugin: 'realm-android'
-    group = 'com.github.rahuljanagouda'
-    apply plugin: 'io.fabric'
 }
 
 android {
@@ -63,14 +60,10 @@ dependencies {
     implementation 'com.vanniktech:emoji-google:0.5.1'
     implementation 'com.mxn.soul:flowingdrawer-core:2.0.0'
     implementation 'com.nineoldandroids:library:2.4.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
-    //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
-
     implementation 'com.daasuu:animateHorizontalProgressBar:0.2.4'
     implementation 'com.chootdev:timezago:1.1.8'
     implementation 'com.karumi:dexter:4.2.0'
@@ -91,12 +84,6 @@ dependencies {
     annotationProcessor 'com.google.cloud:google-cloud-translate:1.12.0'
     implementation 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
 }
-tasks.withType(Javadoc) {
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.addStringOption('encoding', 'UTF-8')
-    options.addStringOption('charSet', 'UTF-8')
-}
-
 
 
 

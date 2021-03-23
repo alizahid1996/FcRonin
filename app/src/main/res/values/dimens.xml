@@ -6,4 +6,6 @@
     <dimen name="tab_indicator_height">5dp</dimen>
     <dimen name="emoji_icon_size">28sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="_18sdp" />
+    <dimen name="_15sdp" />
 </resources>
