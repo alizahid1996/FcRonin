@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import io.realm.RealmList;
 import io.realm.RealmModel;
 import io.realm.annotations.Ignore;
-import io.realm.annotations.RealmClass;
 
-@RealmClass
 public class User implements Parcelable, RealmModel {
     @Ignore
     private boolean online;

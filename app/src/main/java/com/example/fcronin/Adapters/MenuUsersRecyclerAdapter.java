@@ -1,7 +1,6 @@
 package com.example.fcronin.Adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.fcronin.Interfaces.OnUserGroupItemClick;
-import com.example.fcronin.Models.Message;
+import com.example.fcronin.MainActivity;
 import com.example.fcronin.Models.User;
 import com.example.fcronin.R;
 import com.squareup.picasso.Picasso;
@@ -23,8 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MenuUsersRecyclerAdapter  extends RecyclerView.Adapter<MenuUsersRecyclerAdapter.BaseViewHolder> implements Filterable {
-
+public class MenuUsersRecyclerAdapter extends RecyclerView.Adapter<MenuUsersRecyclerAdapter.BaseViewHolder> implements Filterable {
     private Context context;
     private OnUserGroupItemClick itemClickListener;
     private ArrayList<User> dataList, dataListFiltered;
@@ -112,11 +110,6 @@ public class MenuUsersRecyclerAdapter  extends RecyclerView.Adapter<MenuUsersRec
         };
     }
 
-    @Override
-    public Filter getFilter() {
-        return this.filter;
-    }
-
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -134,6 +127,11 @@ public class MenuUsersRecyclerAdapter  extends RecyclerView.Adapter<MenuUsersRec
     @Override
     public int getItemCount() {
         return dataListFiltered.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return this.filter;
     }
 
     class BaseViewHolder extends RecyclerView.ViewHolder {
@@ -203,8 +201,4 @@ public class MenuUsersRecyclerAdapter  extends RecyclerView.Adapter<MenuUsersRec
             userName.setCompoundDrawablesWithIntrinsicBounds(0, 0, user.isOnline() ? R.drawable.ring_green : 0, 0);
         }
     }
-
-
-
-
 }

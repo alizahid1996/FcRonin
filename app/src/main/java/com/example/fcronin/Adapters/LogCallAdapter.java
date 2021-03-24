@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,14 +25,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.Call;
 
-public class LogCallAdapter extends RecyclerView.Adapter<LogCallAdapter.MyViewHolder>{
-
+public class LogCallAdapter extends RecyclerView.Adapter<LogCallAdapter.MyViewHolder> {
     private Context context;
     private ArrayList<LogCall> dataList;
     private OnUserGroupItemClick itemClickListener;
@@ -58,14 +57,13 @@ public class LogCallAdapter extends RecyclerView.Adapter<LogCallAdapter.MyViewHo
         }
     }
 
-    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_item_log_call, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.setData(dataList.get(position));
     }
 
@@ -216,10 +214,4 @@ public class LogCallAdapter extends RecyclerView.Adapter<LogCallAdapter.MyViewHo
         }
         return granted;
     }
-
-
-
-
-
-
 }

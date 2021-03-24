@@ -21,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.MyViewHolder> implements Filterable {
-
     private Context context;
     private OnUserGroupItemClick itemClickListener;
     private ArrayList<Group> dataList, dataListFiltered;
@@ -67,24 +66,23 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.MyViewHold
     }
 
     @Override
-    public Filter getFilter() {
-        return null;
-    }
-
-    @NonNull
-    @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu_user, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.setData(dataListFiltered.get(position));
     }
 
     @Override
     public int getItemCount() {
         return dataListFiltered.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return this.filter;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -118,12 +116,4 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.MyViewHold
             userName.setText(group.getName());
         }
     }
-
-
-
-
-
-
-
-
 }

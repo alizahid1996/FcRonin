@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.fcronin.Models.AttachmentTypes;
 import com.example.fcronin.Models.Message;
 import com.example.fcronin.R;
+import com.example.fcronin.Utils.FileUtils;
 import com.example.fcronin.Utils.Helper;
 import com.example.fcronin.Utils.MyFileProvider;
 import com.example.fcronin.activities.ImageViewerActivity;
@@ -27,12 +28,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MediaSummaryAdapter extends RecyclerView.Adapter<MediaSummaryAdapter.MyViewHolder>{
+public class MediaSummaryAdapter extends RecyclerView.Adapter<MediaSummaryAdapter.MyViewHolder> {
     private Context context;
     private ArrayList<Message> dataList;
 
@@ -65,9 +65,8 @@ public class MediaSummaryAdapter extends RecyclerView.Adapter<MediaSummaryAdapte
         DrawableCompat.setTintMode(documentIcon, PorterDuff.Mode.SRC_ATOP);
     }
 
-    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_media_summary, parent, false);
         view.getLayoutParams().height = imageViewDimens;
         view.getLayoutParams().width = imageViewDimens;
@@ -75,7 +74,7 @@ public class MediaSummaryAdapter extends RecyclerView.Adapter<MediaSummaryAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.setData(dataList.get(position));
     }
 
@@ -175,6 +174,5 @@ public class MediaSummaryAdapter extends RecyclerView.Adapter<MediaSummaryAdapte
             }
         }
     }
-
-
 }
+
