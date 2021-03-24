@@ -102,7 +102,7 @@ public class GroupNewParticipantsAdapter extends RecyclerView.Adapter<GroupNewPa
 
     @Override
     public int getItemCount() {
-        return return dataList.size();;
+         return dataList.size();
     }
 
 
