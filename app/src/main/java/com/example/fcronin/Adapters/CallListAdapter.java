@@ -35,11 +35,6 @@ public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.ViewHo
         this.userMe = userMe;
     }
 
-    @Override
-    public Filter getFilter() {
-        return null;
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
