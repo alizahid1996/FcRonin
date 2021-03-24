@@ -1,7 +1,6 @@
 package com.example.fcronin.activities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
@@ -51,7 +50,6 @@ import com.google.firebase.storage.UploadTask;
 import com.kbeanie.multipicker.api.CameraImagePicker;
 import com.kbeanie.multipicker.api.ImagePicker;
 import com.kbeanie.multipicker.api.Picker;
-import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.squareup.picasso.Picasso;
 
@@ -59,7 +57,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatDetailActivity extends BasicActivity implements OnUserDetailFragmentInteraction, ImagePickerCallbackextends{
+public class ChatDetailActivity extends BaseActivity implements OnUserDetailFragmentInteraction, ImagePickerCallbackextends{
 
     private Handler handler;
     private CollapsingToolbarLayout collapsingToolbarLayout;

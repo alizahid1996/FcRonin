@@ -1,6 +1,5 @@
 package com.example.fcronin.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DownloadManager;
@@ -46,7 +45,7 @@ import com.vanniktech.emoji.EmojiPopup;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ChatActivity extends BasicActivity implements OnMessageItemClick,
+public class ChatActivity extends BaseActivity implements OnMessageItemClick,
         MessageAttachmentRecordingViewHolder.RecordingViewInteractor, View.OnClickListener, ImagePickerCallback,
         FilePickerCallback, AudioPickerCallback, VideoPickerCallback {
     private static final int REQUEST_CODE_CONTACT = 1;

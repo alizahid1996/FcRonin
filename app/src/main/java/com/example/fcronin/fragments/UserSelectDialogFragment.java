@@ -1,66 +1,107 @@
 package com.example.fcronin.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.example.fcronin.Adapters.MenuUsersRecyclerAdapter;
+import com.example.fcronin.Interfaces.UserGroupSelectionDismissListener;
+import com.example.fcronin.Models.User;
 import com.example.fcronin.R;
+import com.example.fcronin.Utils.Helper;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserSelectDialogFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class UserSelectDialogFragment extends Fragment {
+import java.util.ArrayList;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class UserSelectDialogFragment extends BaseFullDialogFragment {
+    private TextView heading;
+    private EditText query;
+    private RecyclerView usersRecycler;
+    private ArrayList<User> myUsers;
+    private Helper helper;
+    private Context context;
 
     public UserSelectDialogFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserSelectDialogFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static UserSelectDialogFragment newInstance(String param1, String param2) {
-        UserSelectDialogFragment fragment = new UserSelectDialogFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_user_select, container);
+        heading = view.findViewById(R.id.heading);
+        query = view.findViewById(R.id.searchQuery);
+        usersRecycler = view.findViewById(R.id.usersRecycler);
+        helper = new Helper(getActivity());
+        view.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        usersRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        usersRecycler.setAdapter(new MenuUsersRecyclerAdapter(getActivity(), myUsers, helper.getLoggedInUser()));
+        query.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (usersRecycler.getAdapter() instanceof MenuUsersRecyclerAdapter) {
+                    ((MenuUsersRecyclerAdapter) usersRecycler.getAdapter()).getFilter().filter(editable.toString());
+                }
+            }
+        });
+    }
+
+    public void refreshUsers(int pos) {
+        if (pos == -1) {
+            query.setText("");
+            usersRecycler.getAdapter().notifyDataSetChanged();
+        } else {
+            usersRecycler.getAdapter().notifyItemChanged(pos);
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_select_dialog, container, false);
+    public static UserSelectDialogFragment newInstance(Context context, ArrayList<User> myUsers) {
+        UserSelectDialogFragment dialogFragment = new UserSelectDialogFragment();
+        dialogFragment.myUsers = myUsers;
+        if (context instanceof UserGroupSelectionDismissListener) {
+            dialogFragment.dismissListener = (UserGroupSelectionDismissListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement UserGroupSelectionDismissListener");
+        }
+        return dialogFragment;
     }
 }

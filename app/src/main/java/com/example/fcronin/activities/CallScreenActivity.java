@@ -1,6 +1,5 @@
 package com.example.fcronin.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
@@ -38,7 +37,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class CallScreenActivity extends BasicActivity implements SensorEventListener {
+public class CallScreenActivity extends BaseActivity implements SensorEventListener {
 
     static final String TAG = CallScreenActivity.class.getSimpleName();
     static final String ADDED_LISTENER = "addedListener";

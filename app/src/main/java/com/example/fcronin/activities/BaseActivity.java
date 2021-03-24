@@ -20,7 +20,6 @@ import com.example.fcronin.Models.Contact;
 import com.example.fcronin.Models.Group;
 import com.example.fcronin.Models.Status;
 import com.example.fcronin.Models.User;
-import com.example.fcronin.R;
 import com.example.fcronin.Utils.Helper;
 import com.example.fcronin.services.FirebaseChatService;
 import com.example.fcronin.services.SinchService;
@@ -30,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public abstract class BasicActivity extends AppCompatActivity implements ServiceConnection {
+public abstract class BaseActivity extends AppCompatActivity implements ServiceConnection {
 
     protected String[] permissionsRecord = {Manifest.permission.VIBRATE, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
     protected String[] permissionsContact = {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -81,7 +80,7 @@ public abstract class BasicActivity extends AppCompatActivity implements Service
                         userUpdated(user);
                         Intent local = new Intent("custom-event-name");
                         local.putExtra("status", user.getStatus());
-                        LocalBroadcastManager.getInstance(BasicActivity.this).sendBroadcast(local);
+                        LocalBroadcastManager.getInstance(BaseActivity.this).sendBroadcast(local);
                         break;
                 }
             }

@@ -1,6 +1,5 @@
 package com.example.fcronin.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -30,7 +29,7 @@ import com.example.fcronin.services.FetchMyUsersService;
 
 import java.util.ArrayList;
 
-public class CallListActivity extends BasicActivity {
+public class CallListActivity extends BaseActivity {
 
     private ArrayList<User> myUsers = new ArrayList<>();
     private SwipeRefreshLayout swipeMenuRecyclerView;

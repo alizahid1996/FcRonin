@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FcRonin">
 
-        <activity android:name=".activities.Main2Activity"/>
+        <activity android:name=".activities.MainActivity"/>
         <activity android:name=".activities.StatusStoriesActivity" />
         <activity android:name=".activities.SplashActivity" />
         <activity android:name=".activities.SignInActivity" />
@@ -41,7 +41,7 @@
         <activity android:name=".activities.ChatActivity" />
         <activity android:name=".activities.CallScreenActivity" />
         <activity android:name=".activities.CallListActivity" />
-        <activity android:name=".activities.BasicActivity" />
+        <activity android:name=".activities.BaseActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

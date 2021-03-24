@@ -1,66 +1,91 @@
 package com.example.fcronin.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.fcronin.Adapters.GroupsAdapter;
+import com.example.fcronin.Interfaces.UserGroupSelectionDismissListener;
+import com.example.fcronin.Models.Group;
 import com.example.fcronin.R;
+import com.example.fcronin.Utils.Helper;
+import com.example.fcronin.Utils.SharedPreferenceHelper;
+import com.example.fcronin.views.MyRecyclerView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GroupSelectDialogFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class GroupSelectDialogFragment extends Fragment {
+import java.util.ArrayList;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class GroupSelectDialogFragment extends BaseFullDialogFragment {
+
+    private TextView heading;
+    private EditText query;
+    private MyRecyclerView recyclerView;
+    private ArrayList<Group> myGroups;
 
     public GroupSelectDialogFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GroupSelectDialogFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GroupSelectDialogFragment newInstance(String param1, String param2) {
-        GroupSelectDialogFragment fragment = new GroupSelectDialogFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_group_select, container);
+        heading = view.findViewById(R.id.heading);
+        heading.setText("Groups");
+        query = view.findViewById(R.id.searchQuery);
+        query.setHint("Send to:");
+
+        recyclerView = view.findViewById(R.id.recycler_view);
+
+        recyclerView.setEmptyView(view.findViewById(R.id.emptyView));
+        recyclerView.setEmptyImageView(((ImageView) view.findViewById(R.id.emptyImage)));
+        TextView emptyTextView = view.findViewById(R.id.emptyText);
+        emptyTextView.setText(getString(R.string.no_groups));
+        recyclerView.setEmptyTextView(emptyTextView);
+
+        view.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+        view.findViewById(R.id.createGroup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferenceHelper sharedPreferenceHelper = new SharedPreferenceHelper(getContext());
+                sharedPreferenceHelper.setBooleanPreference(Helper.GROUP_CREATE, true);
+                dismiss();
+            }
+        });
+        return view;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(new GroupsAdapter(getActivity(), myGroups));
+    }
+
+    public static GroupSelectDialogFragment newInstance(Context context, ArrayList<Group> myGroups) {
+        GroupSelectDialogFragment dialogFragment = new GroupSelectDialogFragment();
+        dialogFragment.myGroups = myGroups;
+        if (context instanceof UserGroupSelectionDismissListener) {
+            dialogFragment.dismissListener = (UserGroupSelectionDismissListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement UserGroupSelectionDismissListener");
         }
+        return dialogFragment;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_group_select_dialog, container, false);
-    }
 }
