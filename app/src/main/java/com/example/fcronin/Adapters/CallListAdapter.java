@@ -14,15 +14,15 @@ import com.example.fcronin.MainActivity;
 import com.example.fcronin.Models.User;
 import com.example.fcronin.R;
 import com.example.fcronin.activities.CallListActivity;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import javax.security.auth.callback.Callback;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.holder> implements Filterable {
+public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.ViewHolder> implements Filterable {
     private Context context;
     private ArrayList<User> myUsers;
     private ArrayList<User> itemsFiltered;
@@ -42,32 +42,33 @@ public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.holder
 
     @NonNull
     @Override
-    public holder onCreateholder(@NonNull ViewGroup parent, int viewType) {
-        return new holder(LayoutInflater.from(context).inflate(R.layout.adapter_list_item_log_call,
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.adapter_list_item_log_call,
                 parent, false));
 
     }
 
     @Override
-    public void onBindholder(@NonNull holder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         final User user = itemsFiltered.get(position);
+
         if (user.getImage() != null && !user.getImage().isEmpty()) {
-            holder.myProgressBar.setVisibility(View.VISIBLE);
+            viewHolder.myProgressBar.setVisibility(View.VISIBLE);
             if (user.getBlockedUsersIds() != null && !user.getBlockedUsersIds().contains(MainActivity.userId))
                 Picasso.get()
                         .load(user.getImage())
                         .tag(this)
                         .placeholder(R.drawable.ic_avatar)
                         .error(R.drawable.ic_avatar)
-                        .into(holder.userImage, new Callback() {
+                        .into(viewHolder.userImage, new Callback() {
                             @Override
                             public void onSuccess() {
-                                holder.myProgressBar.setVisibility(View.GONE);
+                                viewHolder.myProgressBar.setVisibility(View.GONE);
                             }
 
                             @Override
                             public void onError(Exception e) {
-                                holder.myProgressBar.setVisibility(View.GONE);
+                                viewHolder.myProgressBar.setVisibility(View.GONE);
                             }
                         });
             else {
@@ -76,8 +77,8 @@ public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.holder
                         .tag(this)
                         .error(R.drawable.ic_avatar)
                         .placeholder(R.drawable.ic_avatar)
-                        .into(holder.userImage);
-                holder.myProgressBar.setVisibility(View.GONE);
+                        .into(viewHolder.userImage);
+                viewHolder.myProgressBar.setVisibility(View.GONE);
             }
         } else {
             Picasso.get()
@@ -85,26 +86,25 @@ public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.holder
                     .tag(this)
                     .placeholder(R.drawable.ic_avatar)
                     .error(R.drawable.ic_avatar)
-                    .into(holder.userImage);
-            holder.myProgressBar.setVisibility(View.GONE);
+                    .into(viewHolder.userImage);
+            viewHolder.myProgressBar.setVisibility(View.GONE);
         }
-        holder.userName.setText(user.getNameInPhone());
-        holder.status.setText(user.getStatus());
+        viewHolder.userName.setText(user.getNameInPhone());
+        viewHolder.status.setText(user.getStatus());
 
-        holder.audioCall.setOnClickListener(new View.OnClickListener() {
+        viewHolder.audioCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((CallListActivity) context).makeCall(false, user);
             }
         });
 
-        holder.videoCall.setOnClickListener(new View.OnClickListener() {
+        viewHolder.videoCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((CallListActivity) context).makeCall(true, user);
             }
         });
-
 
     }
 
@@ -113,7 +113,40 @@ public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.holder
         return 0;
     }
 
-    public class holder extends RecyclerView.holder{
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String query = charSequence.toString();
+
+                ArrayList<User> filtered = new ArrayList<>();
+
+                if (query.isEmpty()) {
+                    filtered = myUsers;
+                } else {
+                    for (User user : myUsers) {
+                        if (user.getNameInPhone().toLowerCase().contains(query.toLowerCase())) {
+                            filtered.add(user);
+                        }
+                    }
+                }
+
+                FilterResults results = new FilterResults();
+                results.count = filtered.size();
+                results.values = filtered;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults results) {
+                itemsFiltered = (ArrayList<User>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView userImage;
         private ImageView audioCall;
         private ImageView videoCall;
@@ -121,7 +154,7 @@ public class CallListAdapter extends RecyclerView.Adapter<CallListAdapter.holder
         private TextView status;
         private ProgressBar myProgressBar;
 
-        public holder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             userImage = itemView.findViewById(R.id.userImage);
